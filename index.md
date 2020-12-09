@@ -1,4 +1,62 @@
-## apply、call
+##  1. 兼容问题
+
+```
+IE 下svg 不显示问题
+给svg嵌套个父级并写上高度，就显示正常
+```
+
+
+
+## 2.1 简单解释
+
+　　简单来说，escape是对字符串(string)进行编码(而另外两种是对URL)，作用是让它们在所有电脑上可读。
+　　编码之后的效果是%XX或者%uXXXX这种形式。
+　　其中 ASCII字母、数字、@*/+ ，这几个字符不会被编码，其余的都会。
+　　最关键的是，当你需要对URL编码时，请忘记这个方法，这个方法是针对字符串使用的，不适用于URL。
+
+## 2.2 encodeURI和encodeURIComponent
+
+　　对URL编码是常见的事，所以这两个方法应该是实际中要特别注意的。
+　　它们都是编码URL，唯一区别就是编码的字符范围，其中
+　　encodeURI方法不会对下列字符编码 ASCII字母、数字、~!@#$&*()=:/,;?+'
+　　encodeURIComponent方法不会对下列字符编码 ASCII字母、数字、~!*()'
+也就是encodeURIComponent编码的范围更广，会将http://XXX中的//也编码，会导致URL不可用。(其实java中的URLEncoder.encode(str,char)也类似于这个方法，会导致URL不可用)
+
+## 3  vue的watch监听数组和对象，监听到的新值旧值一样解决办法
+
+```javascript
+// 数组 注意监听数组的变更不需要 deep: true
+watch: {
+    messageData(newVal,oldVal) {
+        console.log('newVal,oldVal', newVal, oldVal)
+    }
+},
+
+computed: {
+    messageData() {
+        return [...this.messageList]
+    }
+}
+
+
+// 对象 
+// deep: true 该回调会在任何被侦听的对象的 property 改变时被调用，不论其被嵌套多深
+watch: {
+	messageData: {
+		handler(newVal, oldVal) {
+			console.log('newVal,oldVal', newVal, oldVal)
+		},
+		deep: true
+	}
+}
+
+computed: {
+    messageData() {
+        return Json.parse(JSON.stringify(xxx))
+    }
+}
+```
+## 4 apply、call
 
 在 javascript 中，call 和 apply 都是为了改变某个函数运行时的上下文（context）而存在的，换句话说，就是为了改变函数体内部 this 的指向。
 JavaScript 的一大特点是，函数存在「定义时上下文」和「运行时上下文」以及「上下文是可以改变的」这样的概念。
@@ -78,7 +136,3 @@ console.log(foo.getX.apply(obj));   //81
 - apply 、 call 、bind 三者第一个参数都是this要指向的对象，也就是想指定的上下文；
 - apply 、 call 、bind 三者都可以利用后续参数传参；
 - bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。
-
-
-
-内容来自 https://www.cnblogs.com/moqiutao/p/7371988.html
