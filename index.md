@@ -56,7 +56,7 @@ computed: {
     }
 }
 ```
-## 4 apply、call
+## 4.1 apply、call
 
 在 javascript 中，call 和 apply 都是为了改变某个函数运行时的上下文（context）而存在的，换句话说，就是为了改变函数体内部 this 的指向。
 JavaScript 的一大特点是，函数存在「定义时上下文」和「运行时上下文」以及「上下文是可以改变的」这样的概念。
@@ -87,7 +87,7 @@ apple.say.apply(banana);    //My color is yellow
 
 所以，可以看出 call 和 apply 是为了动态改变 this 而出现的，当一个 object 没有某个方法（本栗子中banana没有say方法），但是其他的有（本栗子中apple有say方法），我们可以借助call或apply用其它对象的方法来操作。
 
-## apply、call 区别
+## 4.2 apply、call 区别
 
 对于 apply、call 二者而言，作用完全一样，只是接受参数的方式不太一样。例如，有一个函数定义如下：
 
@@ -106,7 +106,7 @@ func.apply(this, [arg1, arg2])
 
 其中 this 是你想指定的上下文，他可以是任何一个 JavaScript 对象(JavaScript 中一切皆对象)，call 需要把参数按顺序传递进去，而 apply 则是把参数放在数组里。　
 
-## apply、call、bind比较
+## 4.3 apply、call、bind比较
 
 那么 apply、call、bind 三者相比较，之间又有什么异同呢？何时使用 apply、call，何时使用 bind 呢。简单的一个栗子：
 
@@ -136,3 +136,49 @@ console.log(foo.getX.apply(obj));   //81
 - apply 、 call 、bind 三者第一个参数都是this要指向的对象，也就是想指定的上下文；
 - apply 、 call 、bind 三者都可以利用后续参数传参；
 - bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。
+
+## 5.前端性能优化
+
+[引用地址](https://segmentfault.com/a/1190000022205291) 
+
+
+
+### 使用位操作
+JavaScript 中的数字都使用 IEEE-754 标准以 64 位格式存储。但是在位操作中，数字被转换为有符号的 32 位格式。即使需要转换，位操作也比其他数学运算和布尔操作快得多。
+#### 取模
+由于偶数的最低位为 0，奇数为 1，所以取模运算可以用位操作来代替。
+```
+if (value % 2) {
+    // 奇数
+} else {
+    // 偶数 
+}
+// 位操作
+if (value & 1) {
+    // 奇数
+} else {
+    // 偶数
+}
+```
+#### 取整
+```
+~~10.12 // 10
+~~10 // 10
+~~'1.5' // 1
+~~undefined // 0
+~~null // 0
+```
+#### 位掩码
+```
+const a = 1
+const b = 2
+const c = 4
+const options = a | b | c
+```
+通过定义这些选项，可以用按位与操作来判断 a/b/c 是否在 options 中。
+```
+// 选项 b 是否在选项中
+if (b & options) {
+    ...
+}
+```

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- @crossorigin:支持跨域，使得该window.onerror能捕获到具体异常 -->
+    <!-- @integrity:验证文件完整性 -->
+    <script
+      crossorigin=""
+      integrity="sha384-OZmxTjkv7EQo5XDMPAmIkkvywVeXw59YyYh6zq8UKfkbor13jS+5p8qMTBSA1q+F"
+      src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      /*
+       * @param msg{String}：错误消息
+       * @param url{String}：发生错误页面的url
+       * @param line{Number}：发生错误的代码行
+       */
+      // window.onerror = function(msg, url, line){
+      //     console.log("msg", msg);
+      //     console.log("url:", url);
+      //     console.log("line:", line);
+      //     return true // 返回 true 则错误消息不显示在控制台，返回 false，则错误消息将会展示在控制台
+      // }
+      /**
+       * @param {String}  errorMessage   错误信息
+       * @param {String}  scriptURI      出错的文件
+       * @param {Long}    lineNumber     出错代码的行号
+       * @param {Long}    columnNumber   出错代码的列号
+       * @param {Object}  errorObj       错误的详细信息，Anything
+       * return 返回 true 则错误消息不显示在控制台，返回 false，则错误消息将会展示在控制台
+       */
+      window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
+        console.log('created -> errorMessage, scriptURI, lineNumber, columnNumber, errorObj', {
+          errorMessage,
+          scriptURI,
+          lineNumber,
+          columnNumber,
+          errorObj
+        })
+        return true
+      }
+      console.log('a', a)
+    </script>
+  </body>
+</html>
