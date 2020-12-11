@@ -182,3 +182,65 @@ if (b & options) {
     ...
 }
 ```
+## 6 媒体查询
+```
+先看下面的代码,这是从bootstrap中遍历出来的，min-width来确认分别是768、992、1200。
+当然了过去也有些设备宽度是600 480的，哪些小分辨率的我们都归类为小于767的。
+为什么是小于767而不是768呢，那是因为在css中@media (min-width: 768px)表示最小是768也就是>=768，
+这里有等于，所以我们判断更小的设备用@media (max-width: 767px)这边表示<=767就不会有冲突了 
+运用@media实现网页自适应中的几个关键分辨率 
+从上面我们可以看出有几个临界点的分辨率，那么我们就可以轻松的来写自己的自适应代码了
+@media (min-width: 768px){ //>=768的设备 }
+@media (min-width: 992px){ //>=992的设备 }
+@media (min-width: 1200){ //>=1200的设备 }
+注意下顺序，如果你把@media (min-width: 768px)写在了下面那么很悲剧，
+@media (min-width: 1200){ //>=1200的设备 }
+@media (min-width: 992px){ //>=992的设备 }
+@media (min-width: 768px){ //>=768的设备 }
+因为如果是1440,由于1440>768那么你的1200就会失效。
+所以我们用min-width时，小的放上面大的在下面，同理如果是用max-width那么就是大的在上面，小的在下面
+@media (max-width: 1199){ //<=1199的设备 }
+@media (max-width: 991px){ //<=991的设备 }
+@media (max-width: 767px){ //<=768的设备 }
+经过了上面的入门学习，我们就可以灵活的来点高级的混合应用了
+@media screen and (min-width:1200px){
+	#page{ width: 1100px; }
+	#content,.div1{width: 730px;}
+	#secondary{width:310px} 
+} 
+@media screen and (min-width: 960px) and (max-width: 1199px) { 
+	#page{ width: 960px; }
+	#content,.div1{width: 650px;}
+	#secondary{width:250px}
+	select{max-width:200px} 
+}
+ @media screen and (min-width: 768px) and (max-width: 959px) { 
+ 	#page{ width: 900px; }
+ 	#content,.div1{width: 620px;}
+ 	#secondary{width:220px}
+ 	select{max-width:180px} 
+ }
+ @media only screen and (min-width: 480px) and (max-width: 767px){ 
+ 	#page{ width: 450px; }
+ 	#content,.div1{width: 420px;position: relative; }
+ 	#secondary{display:none}
+ 	#access{width: 450px; }
+ 	#access a {padding-right:5px}
+ 	#access a img{display:none}
+ 	#rss{display:none}
+ 	#branding #s{display:none}
+ } 
+@media only screen and (max-width: 479px) {
+	#page{ width: 300px; }
+	#content,.div1{width: 300px;}
+	#secondary{display:none}
+	#access{width: 330px;} 
+	#access a {padding-right:10px;padding-left:10px}
+	#access a img{display:none}
+	#rss{display:none}
+	#branding #s{display:none}
+	#access ul ul a{width:100px} 
+}
+4
+上面的代码中用到了 screen这里指定了显示器为显示设备，也可以是print打印机等其他设备，一般我们用screen。或者干脆省略。如果想看详细的关于media的说明可以百度一下关于media query的知识
+```
