@@ -244,3 +244,20 @@ if (b & options) {
 4
 上面的代码中用到了 screen这里指定了显示器为显示设备，也可以是print打印机等其他设备，一般我们用screen。或者干脆省略。如果想看详细的关于media的说明可以百度一下关于media query的知识
 ```
+
+## 7  Vue中 onmouseenter,onmouseleave,onmouseover,onmouseout的区别
+```javascript
+1.onmouseenter和onmouseleave是一组：当鼠标进入指定区域的时候触发，但是不支持冒泡，进入或者离开子组件都不触发
+下图中，onmouseenter和onmouseleave相当于绑定的区域为A+B
+```
+
+
+![](D:\GitProject\github\ruiaHuang.github.io\images\mouse1.png)
+```
+2.onmouseover和onmouseout是一组：当鼠标进入指定区域的时候触发，进入或者离开子组件也都触发
+
+下图中，onmouseover和onmouseout相当于绑定的区域为A(不包含B)
+
+```
+
+![](D:\GitProject\github\ruiaHuang.github.io\images\mouse2.png)
