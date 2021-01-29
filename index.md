@@ -289,3 +289,41 @@ throttle
  鼠标不断点击触发，mousedown(单位时间内只触发一次)
  监听滚动事件，比如是否滑到底部自动加载更多，用throttle来判断
 ```
+## 10. JSON.parse(JSON.stringify(obj))实现深拷贝的弊端
+1. 深拷贝:将数据中所有的数据拷贝下来，对拷贝之后的数据进行修改不会影响到原数据。
+2. 浅拷贝 ： 只是将数据中所有的数据引用下来，依旧指向同一个存放地址，拷贝之后的数据修改之后，也会影响到原数据的中的对象数据。例如:Object.assign(),…扩展运算符
+
+### JSON.parse(JSON.stringify(obj))深拷贝的问题
+1.	如果obj里面存在时间对象,JSON.parse(JSON.stringify(obj))之后，时间对象变成了字符串。
+2.	如果obj里有RegExp、Error对象，则序列化的结果将只得到空对象。
+3.	如果obj里有函数，undefined，则序列化的结果会把函数， undefined丢失。
+4.	如果obj里有NaN、Infinity和-Infinity，则序列化的结果会变成null。
+5.	JSON.stringify()只能序列化对象的可枚举的自有属性。如果obj中的对象是有构造函数生成的，
+则使用JSON.parse(JSON.stringify(obj))深拷贝后，会丢弃对象的constructor。
+如果对象中存在循环引用的情况也无法正确实现深拷贝。
+```
+function Person (name) {
+    this.name = 20
+}
+
+const lili = new Person('lili')
+
+let a = {
+    data0: '1',
+    date1: [new Date('2020-03-01'), new Date('2020-03-05')],
+    data2: new RegExp('\\w+'),
+    data3: new Error('1'),
+    data4: undefined,
+    data5: function () {
+    	console.log(1)
+    },
+    data6: NaN,
+    data7: lili
+}
+let b = JSON.parse(JSON.stringify(a))
+```
+### 可以使用 lodash 库 cloneDeep 方法来解决
+```
+let c = _.cloneDeep(a)
+```
+
