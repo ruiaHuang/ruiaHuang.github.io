@@ -327,3 +327,46 @@ let b = JSON.parse(JSON.stringify(a))
 let c = _.cloneDeep(a)
 ```
 
+## 11. SASS- 局部文件(Partial)
+
+Sass源文件中可以通过`@import`指令导入其他Sass源文件，被导入的文件就是局部文件，局部文件让Sass模块化编写更加容易。
+
+如果一个目录正在被Sass程序监测，目录下的所有scss/sass源文件都会被编译，但通常不希望局部文件被编译，因为局部文件是用来被导入到其他文件的。如果不想局部文件被编译，文件名可以以下划线 （_）开头。
+
+### 举例说明
+
+假设我们有一个局部文件： _colors.scss，该文件会被导入到styles.scss文件，然后styles.scss会被编译为styles.css。
+
+_colors.scss文件内容：
+
+```scss
+$primary-color: orange;
+$secondary-color: gold;
+```
+
+复制
+
+使用`@import`导入局部文件，styles.scss内容如下：
+
+```scss
+@import "colors";
+
+body {
+  color: $primary-color;
+  background: $secondary-color;
+}
+```
+
+复制
+
+可以看到在使用`@import`导入局部文件_color.scss时，省略了下划线和扩展名，这是允许的。
+
+styles.scss编译后的CSS文件内容如下：
+
+```scss
+body {
+  color: orange;
+  background: gold; }
+```
+
+转载自 https://www.qikegu.com/docs/2580
