@@ -4,8 +4,10 @@ import App from './App.tsx';
 import './index.css';
 
 import WebApp from '@twa-dev/sdk';
+import eruda from 'eruda';
 
 WebApp.ready();
+eruda.init();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

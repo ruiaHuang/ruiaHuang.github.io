@@ -875,6 +875,11 @@ electron-to-chromium@^1.4.796:
   resolved "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.805.tgz#1d526e384c20944a3c68f618f9774edc384c4733"
   integrity sha512-8W4UJwX/w9T0QSzINJckTKG6CYpAUTqsaWcWIsdud3I1FYJcMgW9QqT1/4CBff/pP/TihWh13OmiyY8neto6vw==
 
+eruda@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmmirror.com/eruda/-/eruda-3.2.1.tgz#722643c292a734acfd8bfeedc5048d60955606f6"
+  integrity sha512-iophjRvysx2ndIhqos+WpGUpou0BHGZOYcLld8oB65oH9+Cz7FExC5xEJ/ulzxpWoqw4Kh8gM7spuaGJhz0UeA==
+
 esbuild@^0.21.3:
   version "0.21.5"
   resolved "https://registry.npmmirror.com/esbuild/-/esbuild-0.21.5.tgz#9ca301b120922959b766360d8ac830da0d02997d"
