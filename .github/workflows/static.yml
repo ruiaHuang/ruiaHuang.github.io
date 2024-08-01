@@ -46,9 +46,13 @@ jobs:
           pnpm install --no-frozen-lockfile
           sed -i "s#VITE_PUBLIC_PATH = \"/\"#VITE_PUBLIC_PATH = /vue3-h5-template/#g" $(pwd)/.env.production
           pnpm build
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: 设置页面
+        uses: actions/configure-pages@v3
+      - name: 上传构件
+        uses: actions/upload-pages-artifact@v1
         with:
-          branch: gh-pages
-          folder: dist
-          clean: true
+          # 上传 dist 库
+          path: "./dist"
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
