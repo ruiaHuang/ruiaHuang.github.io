@@ -5,14 +5,18 @@ import WebApp from '@twa-dev/sdk';
 
 function App() {
   const [count, setCount] = useState(0);
+  const hash = window.location.hash.slice(1);
+  console.log(hash);
 
   function getParams(key: string) {
-    const hash = window.location.hash.slice(1);
+    // const hash = window.location.hash.slice(1);
     // console.log(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
     const params = new URLSearchParams(decodeURIComponent(hash));
-    console.log(params.get(key)); // "6. 2"
+    console.log(key, params.get(key)); // "6. 2"
   }
+
+  getParams('tgWebAppVersion');
 
   getParams('user');
 
