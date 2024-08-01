@@ -21,33 +21,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # 由于我们只是部署，因此单个部署作业
   deploy:
-    concurrency: ci-${{ github.ref }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: 设置 Node
+        uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: 18
           registry-url: https://registry.npmjs.com/
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+          # cache: "npm"
+          # cache-dependency-path: "./"
+      - name: 安装依赖
+        run: pnpm install
+      - name: 构建
+        run: pnpm run build
+      - name: 设置页面
+        uses: actions/configure-pages@v3
+      - name: 上传构件
+        uses: actions/upload-pages-artifact@v1
         with:
-          version: 9
-
-      - name: Deploy 🔧
-        run: |
-          pnpm install --no-frozen-lockfile
-          sed -i "s#VITE_PUBLIC_PATH = \"/\"#VITE_PUBLIC_PATH = /vue3-h5-template/#g" $(pwd)/.env.production
-          pnpm build
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: dist
-          clean: true
+          # 上传 dist 库
+          path: "./docs"
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
