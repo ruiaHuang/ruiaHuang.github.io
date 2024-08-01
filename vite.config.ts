@@ -11,6 +11,7 @@ import vueSetupExtend from "vite-plugin-vue-setup-extend";
 import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { enableCDN } from "./build/cdn";
+import basicSsl from "@vitejs/plugin-basic-ssl";
 
 // 当前工作目录路径
 const root: string = process.cwd();
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => {
     base: env.VITE_PUBLIC_PATH || "/",
     plugins: [
       vue(),
+      basicSsl(),
       vueJsx(),
       mockDevServerPlugin(),
       // vant 组件自动按需引入
@@ -40,7 +42,7 @@ export default defineConfig(({ mode }) => {
       // 允许 setup 语法糖上添加组件名属性
       vueSetupExtend(),
       // 生产环境 gzip 压缩资源
-      viteCompression(),
+      // viteCompression(),
       // 注入模板数据
       createHtmlPlugin({
         inject: {
@@ -70,9 +72,9 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          chunkFileNames: "static/js/[name]-[hash].js",
-          entryFileNames: "static/js/[name]-[hash].js",
-          assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+          chunkFileNames: "assets/js/[name]-[hash].js",
+          entryFileNames: "assets/js/[name]-[hash].js",
+          assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
         }
       }
     }
