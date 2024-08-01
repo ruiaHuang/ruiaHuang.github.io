@@ -1,38 +1,52 @@
-name: Build and Deploy
-permissions:
-  contents: write
+# 将静态内容部署到 GitHub Pages 的简单工作流
+name: 将静态内容部署到页面
+
 on:
+  # 针对默认分支的推送上运行
   push:
-    branches:
-      - master
+    branches: ["tg"]
+
+  # 允许您从操作选项卡手动运行此工作流
+  workflow_dispatch:
+
+# 设置 GITHUB_TOKEN 权限以允许部署到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 允许一个并行部署
+concurrency:
+  group: "页面"
+  cancel-in-progress: true
+
 jobs:
+  # 由于我们只是部署，因此单个部署作业
   deploy:
-    concurrency: ci-${{ github.ref }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: 设置 Node
+        uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          registry-url: https://registry.npmjs.com/
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: "./"
+      - name: 安装依赖
+        run: npm install
+      - name: 构建
+        run: npm run build
+      - name: 设置页面
+        uses: actions/configure-pages@v3
+      - name: 上传构件
+        uses: actions/upload-pages-artifact@v1
         with:
-          version: 9
-
-      - name: Deploy 🔧
-        run: |
-          pnpm install --no-frozen-lockfile
-          sed -i "s#VITE_PUBLIC_PATH = \"/\"#VITE_PUBLIC_PATH = /vue3-h5-template/#g" $(pwd)/.env.production
-          pnpm build
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: dist
-          clean: true
+          # 上传 dist 库
+          path: "./docs"
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
