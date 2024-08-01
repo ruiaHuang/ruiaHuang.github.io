@@ -10,7 +10,7 @@ function App() {
     const hash = window.location.hash.slice(1);
     // console.log(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
 
-    const params = new URLSearchParams(hash);
+    const params = new URLSearchParams(decodeURIComponent(hash));
     console.log(params.get(key)); // "6. 2"
   }
 
